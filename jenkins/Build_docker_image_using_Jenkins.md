@@ -9,6 +9,8 @@
 ### Install docker and start docker on Jenkins server 
 ```sh 
   yum install docker -y
+  service docker start
+  usermod -aG docker jenkins
 ```
 ### On Jenkins Console 
 
@@ -32,7 +34,7 @@ Create dockerHub Credentials to store docker images
    - *Source Code Management:*
       - Repository: `https://github.com/yankils/hello-world.git`
 
-   - *Build:*
+   - *Build-invoke top-level Maven targets:*
           - Goals and options: `clean install`
 
    - *Docker build and publish*
