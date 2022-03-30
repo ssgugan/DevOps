@@ -19,10 +19,12 @@ SonarQube is an open-source static testing analysis software, it is used by deve
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   sudo apt-get update
   sudo apt-get -y install postgresql
+  systemctl status postgresql
   ```
 
 1. Set a password and connect to database (setting password as "admin" password)
   ```sh 
+  cat /etc/passwd
   sudo passwd postgres
   su - postgres
   ```
@@ -34,6 +36,8 @@ SonarQube is an open-source static testing analysis software, it is used by deve
   ALTER USER sonar WITH ENCRYPTED PASSWORD 'admin';
   CREATE DATABASE sonarqube OWNER sonar;
   GRANT ALL PRIVILEGES ON DATABASE sonarqube to sonar;
+  exit
+  exit
   ``` 
 
 1. Restart postgres database to take latest changes effect 
@@ -46,6 +50,7 @@ SonarQube is an open-source static testing analysis software, it is used by deve
 
 
 apt install net-tools
+netstat -tulnp
 
 `Source: https://docs.sonarqube.org/latest/requirements/requirements/`
 
@@ -72,8 +77,12 @@ apt install net-tools
 
 1. Download [soarnqube](https://www.sonarqube.org/downloads/) and extract it.   
   ```sh 
+  cd /opt/
   wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.2.46101.zip
+  apt install unzip
   unzip sonarqube-8.9.2.46101.zip
+  cd sonarqube-8.9.2.46101/conf
+  vi sonar.properties
   ```
 
 1. Update sonar.properties with below information 
@@ -114,14 +123,16 @@ apt install net-tools
 
 1. Add sonar user and grant ownership to /opt/sonarqube directory 
   ```sh 
+  cd /opt/
   useradd -d /opt/sonarqube sonar
-  chown -R sonar:sonar
+  chown -R sonar:sonar /opt/sonarqube
   ```
 
 1. Reload the demon and start sonarqube service 
   ```sh 
   systemctl daemon-reload 
   systemctl start sonarqube.service 
+  netstat -tulnp
   ```
 
 
